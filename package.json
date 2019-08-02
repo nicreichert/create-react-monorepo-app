@@ -1,12 +1,18 @@
 {
-  "name": "create-monorepo-app",
+  "name": "create-react-monorepo-app",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Nic Reichert",
+  "author": "Nic Reichert <nicolas.jreichert@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=8.3.0"
   },
+  "repository": "https://github.com/nicreichert/create-monorepo-app",
+  "keywords": [
+    "monorepo",
+    "react",
+    "frontend"
+  ],
   "bin": "./bin/create-monorepo-app.js",
   "dependencies": {
     "chalk": "^2.4.2",
