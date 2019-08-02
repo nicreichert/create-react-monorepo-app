@@ -49,6 +49,15 @@ async function create(name) {
       const package = require(path.join(targetDir, 'package.json'));
       package.name = name;
 
+      if (adminType) {
+        package.scripts = {
+          ...package.scripts,
+          'start:admin':
+            'concurrently "(cd packages/admin && yarn start)" "(cd packages/ui && yarn start)"',
+          'build:admin': '(cd packages/admin && yarn build)',
+        };
+      }
+
       return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(package, null, 2));
     })
     .then(() => {
@@ -76,7 +85,7 @@ async function create(name) {
     const adminPath = path.join(targetDir, '/packages/admin');
     await fs.copy(path.join(templatePath, 'cra'), adminPath).then(() => {
       const package = require(path.join(adminPath, 'package.json'));
-      package.name = `@${name}/web`;
+      package.name = `@${name}/admin`;
       package.dependencies = { [`@${name}/ui`]: '1.0.0', ...package.dependencies };
 
       return fs.writeFile(path.join(adminPath, 'package.json'), JSON.stringify(package, null, 2));

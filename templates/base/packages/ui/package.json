@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc --w",
-    "create-exports": "node ../../scripts/createExports.js src/components src/hooks src/constants",
     "build": "tsc"
   },
   "dependencies": {
