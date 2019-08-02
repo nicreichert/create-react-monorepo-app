@@ -3,14 +3,13 @@ const path = require('path');
 const execa = require('execa');
 const ora = require('ora');
 const chalk = require('chalk');
+const fs = require('fs-extra');
 
 let spinner = ora({
   color: 'red',
 });
 
 async function create(name) {
-  // const start = Date.now();
-
   const { type } = await prompt({
     name: 'type',
     type: 'list',
@@ -40,13 +39,55 @@ async function create(name) {
 
   // run the generator
   spinner.start('Generating project');
-  // const generator = new Generator({ name, type, plugins, targetDir });
-  // await generator.generate();
+
+  const templatePath = path.resolve(__dirname, '../templates');
+
+  // Copy base template
+  await fs
+    .copy(path.join(templatePath, 'base'), path.join(targetDir))
+    .then(() => {
+      const package = require(path.join(targetDir, 'package.json'));
+      package.name = name;
+
+      return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(package, null, 2));
+    })
+    .then(() => {
+      const package = require(path.join(path.join(targetDir, '/packages/ui'), 'package.json'));
+      package.name = `@${name}/ui`;
+
+      return fs.writeFile(
+        path.join(path.join(targetDir, '/packages/ui'), 'package.json'),
+        JSON.stringify(package, null, 2)
+      );
+    });
+
+  // Copy CRA template to web project
+  const webPath = path.join(targetDir, '/packages/web');
+  await fs.copy(path.join(templatePath, 'cra'), webPath).then(() => {
+    const package = require(path.join(webPath, 'package.json'));
+    package.name = `@${name}/web`;
+    package.dependencies = { [`@${name}/ui`]: '1.0.0', ...package.dependencies };
+
+    return fs.writeFile(path.join(webPath, 'package.json'), JSON.stringify(package, null, 2));
+  });
+
+  if (adminType) {
+    // Copy CRA template to admin project
+    const adminPath = path.join(targetDir, '/packages/admin');
+    await fs.copy(path.join(templatePath, 'cra'), adminPath).then(() => {
+      const package = require(path.join(adminPath, 'package.json'));
+      package.name = `@${name}/web`;
+      package.dependencies = { [`@${name}/ui`]: '1.0.0', ...package.dependencies };
+
+      return fs.writeFile(path.join(adminPath, 'package.json'), JSON.stringify(package, null, 2));
+    });
+  }
+
   spinner.succeed(`Project generated at ${chalk.blue(targetDir)}`);
 
   // install dependencies
   spinner.start('Installing dependencies');
-  await ('yarn', ['install'], { cwd: targetDir });
+  await execa('yarn', ['install'], { cwd: targetDir });
   spinner.succeed('Dependencies installed');
 
   // intialize git
@@ -62,12 +103,10 @@ async function create(name) {
   });
 
   spinner.succeed(`${chalk.blue('git')} initialized`);
-
-  // generator.onComplete();
 }
 
-module.exports = (...args) => {
-  create(args[0]).catch(error => {
+module.exports = name => {
+  create(name).catch(error => {
     spinner.fail(`Error: ${error.message}`);
     console.log(error);
   });

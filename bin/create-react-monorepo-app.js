@@ -37,4 +37,4 @@ const cli = meow(`
     ${chalk.gray('$')} create-monorepo-app ${chalk.yellow('[project-directory]')}
 `);
 
-create(cli.input[0] || '.');
+create(process.argv[0] || '.');

@@ -13,10 +13,11 @@
     "react",
     "frontend"
   ],
-  "bin": "./bin/create-monorepo-app.js",
+  "bin": "./bin/create-react-monorepo-app.js",
   "dependencies": {
     "chalk": "^2.4.2",
     "execa": "^2.0.3",
+    "fs-extra": "^8.1.0",
     "inquirer": "^6.5.0",
     "meow": "^5.0.0",
     "ora": "^3.4.0",
