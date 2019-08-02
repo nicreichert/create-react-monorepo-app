@@ -1,0 +1,24 @@
+{
+  "name": "create-monorepo-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nic Reichert",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.3.0"
+  },
+  "bin": "./bin/create-monorepo-app.js",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "execa": "^2.0.3",
+    "inquirer": "^6.5.0",
+    "meow": "^5.0.0",
+    "ora": "^3.4.0",
+    "please-upgrade-node": "^3.1.1",
+    "update-notifier": "^3.0.1",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}
