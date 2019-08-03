@@ -1,3 +1,6 @@
+'use strict';
+'use strict';
+
 const { prompt } = require('inquirer');
 
 async function configuration() {

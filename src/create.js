@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const execa = require('execa');
 const ora = require('ora');
@@ -9,6 +11,7 @@ const configuration = require('./configuration');
 
 const base = require('./plugins/base');
 const cra = require('./plugins/cra');
+const cypress = require('./plugins/cypress');
 const storybookTemplate = require('./plugins/storybook');
 
 let spinner = ora({
@@ -35,6 +38,8 @@ async function create(name) {
 
   // Copy storybook template
   storybook && (await storybookTemplate(name, targetDir));
+
+  e2e && (await cypress(config, name, targetDir));
 
   // Replace `@monorepo` with current project name from templates
   replace({

@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -19,22 +21,28 @@ const storybookScripts = storybook =>
       }
     : {};
 
-async function base({ storybook, adminType }, name, targetDir) {
+const cypressScripts = e2e =>
+  e2e
+    ? {
+        'start:cypress': '(cd packages/cypress && yarn start)',
+      }
+    : {};
+
+module.exports = async ({ storybook, adminType, e2e }, name, targetDir) => {
   await fs.copy(path.join(__dirname, 'template'), targetDir).then(() => {
-    const package = require(path.join(targetDir, 'package.json'));
-    package.name = name;
+    const pkg = require(path.join(targetDir, 'package.json'));
+    pkg.name = name;
 
     if (adminType || storybook) {
-      package.scripts = {
-        ...package.scripts,
+      pkg.scripts = {
+        ...pkg.scripts,
         ...adminScripts(adminType),
         ...storybookScripts(storybook),
+        ...cypressScripts(e2e),
         postinstall: 'yarn build:ui',
       };
     }
 
-    return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(package, null, 2));
+    return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));
   });
-}
-
-module.exports = base;
+};
