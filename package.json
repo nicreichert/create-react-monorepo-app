@@ -1,13 +1,13 @@
 {
   "name": "create-react-monorepo-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "author": "Nic Reichert <nicolas.jreichert@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=8.3.0"
   },
-  "repository": "https://github.com/nicreichert/create-monorepo-app",
+  "repository": "https://github.com/nicreichert/create-react-monorepo-app",
   "keywords": [
     "monorepo",
     "react",
@@ -22,6 +22,7 @@
     "meow": "^5.0.0",
     "ora": "^3.4.0",
     "please-upgrade-node": "^3.1.1",
+    "replace": "^1.1.0",
     "update-notifier": "^3.0.1",
     "validate-npm-package-name": "^3.0.0"
   },

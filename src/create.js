@@ -1,96 +1,49 @@
-const { prompt } = require('inquirer');
 const path = require('path');
 const execa = require('execa');
 const ora = require('ora');
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const replace = require('replace');
+
+const configuration = require('./configuration');
+
+const base = require('./plugins/base');
+const cra = require('./plugins/cra');
+const storybookTemplate = require('./plugins/storybook');
 
 let spinner = ora({
   color: 'red',
 });
 
 async function create(name) {
-  const { type } = await prompt({
-    name: 'type',
-    type: 'list',
-    message: 'What type of application do you need?',
-    choices: [{ name: 'Single-page', value: 'SPA' }, { name: 'Server-rendered', value: 'SSR' }],
-  });
-
-  const { adminType } = await prompt({
-    name: 'adminType',
-    type: 'list',
-    message: 'Does your project include an admin panel?',
-    choices: [
-      { name: 'No', value: null },
-      { name: 'Yes (Single-page)', value: 'SPA' },
-      { name: 'Yes (Server-rendered)', value: 'SSR' },
-    ],
-  });
-
-  const { e2e } = await prompt({
-    name: 'e2e',
-    type: 'list',
-    message: 'Include E2E tests setup?',
-    choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
-  });
-
-  const targetDir = path.resolve(name);
+  const config = await configuration();
+  const { type, adminType, storybook, e2e } = config;
 
   // run the generator
   spinner.start('Generating project');
 
-  const templatePath = path.resolve(__dirname, '../templates');
+  const targetDir = path.resolve(name);
 
   // Copy base template
-  await fs
-    .copy(path.join(templatePath, 'base'), path.join(targetDir))
-    .then(() => {
-      const package = require(path.join(targetDir, 'package.json'));
-      package.name = name;
+  await base(config, name, targetDir);
 
-      if (adminType) {
-        package.scripts = {
-          ...package.scripts,
-          'start:admin':
-            'concurrently "(cd packages/admin && yarn start)" "(cd packages/ui && yarn start)"',
-          'build:admin': '(cd packages/admin && yarn build)',
-        };
-      }
+  // Copy web template
+  await cra('web', name, targetDir);
 
-      return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(package, null, 2));
-    })
-    .then(() => {
-      const package = require(path.join(path.join(targetDir, '/packages/ui'), 'package.json'));
-      package.name = `@${name}/ui`;
+  // Copy admin template
+  adminType && (await cra('admin', name, targetDir));
 
-      return fs.writeFile(
-        path.join(path.join(targetDir, '/packages/ui'), 'package.json'),
-        JSON.stringify(package, null, 2)
-      );
-    });
+  // Copy storybook template
+  storybook && (await storybookTemplate(name, targetDir));
 
-  // Copy CRA template to web project
-  const webPath = path.join(targetDir, '/packages/web');
-  await fs.copy(path.join(templatePath, 'cra'), webPath).then(() => {
-    const package = require(path.join(webPath, 'package.json'));
-    package.name = `@${name}/web`;
-    package.dependencies = { [`@${name}/ui`]: '1.0.0', ...package.dependencies };
-
-    return fs.writeFile(path.join(webPath, 'package.json'), JSON.stringify(package, null, 2));
+  // Replace `@monorepo` with current project name from templates
+  replace({
+    regex: '@monorepo',
+    replacement: `@${name}`,
+    paths: [targetDir],
+    recursive: true,
+    silent: true,
   });
-
-  if (adminType) {
-    // Copy CRA template to admin project
-    const adminPath = path.join(targetDir, '/packages/admin');
-    await fs.copy(path.join(templatePath, 'cra'), adminPath).then(() => {
-      const package = require(path.join(adminPath, 'package.json'));
-      package.name = `@${name}/admin`;
-      package.dependencies = { [`@${name}/ui`]: '1.0.0', ...package.dependencies };
-
-      return fs.writeFile(path.join(adminPath, 'package.json'), JSON.stringify(package, null, 2));
-    });
-  }
 
   spinner.succeed(`Project generated at ${chalk.blue(targetDir)}`);
 

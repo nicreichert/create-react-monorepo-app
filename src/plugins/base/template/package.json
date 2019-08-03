@@ -8,8 +8,7 @@
     "test": "jest --watch",
     "build:ui": "(cd packages/ui && yarn build)",
     "build:web": "(cd packages/web && yarn build)",
-    "start:web": "concurrently \"(cd packages/web && yarn start)\" \"(cd packages/ui && yarn start)\"",
-    "postinstall": "yarn build:ui"
+    "start:web": "concurrently \"(cd packages/web && yarn start)\" \"(cd packages/ui && yarn start)\""
   },
   "workspaces": [
     "packages/*"
