@@ -1,6 +1,6 @@
 # create-react-monorepo-app 🛸
 
-This project is a very opinionated boilerplate for react monorepos.
+This project is a highly opinionated boilerplate for react monorepos, built using [yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/).
 
 Out of the box, it includes:
 
@@ -44,5 +44,6 @@ Note that both `storybook` and `cypress` are using minimal setup, therefore, the
 
 ## Next steps
 
-- [x] Add [gatsby](https://www.gatsbyjs.org/) template
-- [ ] Add possibility to export the templates together (to create new projects)
+[x] Add [gatsby](https://www.gatsbyjs.org/) template
+[x] Add possibility to export the templates together (to create new projects)
+[ ] Port to typescript

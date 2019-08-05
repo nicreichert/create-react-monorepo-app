@@ -16,6 +16,8 @@ const gatsby = require('./plugins/gatsby');
 const cypress = require('./plugins/cypress');
 const storybookTemplate = require('./plugins/storybook');
 
+const copyTemplates = require('./scripts/install-templates');
+
 let spinner = ora({
   color: 'red',
 });
@@ -33,7 +35,7 @@ const webCreator = type => {
 
 async function create(name) {
   const config = await configuration();
-  const { type, adminType, storybook, e2e } = config;
+  const { type, adminType, storybook, e2e, shouldCopyTemplates } = config;
 
   // run the generator
   spinner.start('Generating project');
@@ -44,15 +46,17 @@ async function create(name) {
   await base(config, name, targetDir);
 
   // Copy web template
-  await webCreator(type)('web', name, targetDir);
+  await webCreator(type)(name, targetDir, 'web');
 
   // Copy admin template
-  adminType && (await webCreator(adminType)('admin', name, targetDir));
+  adminType && (await webCreator(adminType)(name, targetDir, 'admin'));
 
   // Copy storybook template
   storybook && (await storybookTemplate(name, targetDir));
 
-  e2e && (await cypress(config, name, targetDir));
+  e2e && (await cypress(name, targetDir));
+
+  shouldCopyTemplates && (await copyTemplates(targetDir));
 
   // Replace `@monorepo` with current project name from templates
   replace({
@@ -83,6 +87,8 @@ async function create(name) {
   });
 
   spinner.succeed(`${chalk.blue('git')} initialized`);
+
+  spinner.succeed(`${name} setup concluded`);
 }
 
 module.exports = name => {

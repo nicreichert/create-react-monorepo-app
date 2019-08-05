@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 
 const { prompt } = require('inquirer');
 
@@ -41,11 +40,19 @@ async function configuration() {
     choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
   });
 
+  const { shouldCopyTemplates } = await prompt({
+    name: 'shouldCopyTemplates',
+    type: 'list',
+    message: 'Copy templates so you can later create new projects?',
+    choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
+  });
+
   return {
     type,
     adminType,
     storybook,
     e2e,
+    shouldCopyTemplates,
   };
 }
 

@@ -3,18 +3,11 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-module.exports = async ({ adminType }, name, targetDir) => {
-  const cypressPath = path.join(targetDir, 'packages/cypress');
+module.exports = async (workspace, targetDir, name = 'cypress') => {
+  const cypressPath = path.join(targetDir, 'packages', name);
   await fs.copy(path.join(__dirname, 'template'), cypressPath).then(() => {
     const pkg = require(path.join(cypressPath, 'package.json'));
-
-    pkg.scripts = {
-      start: `(cd ../web && yarn build) ${
-        adminType ? '&& (cd ../admin && yarn build)' : ''
-      } && concurrently "PORT=1234 serve -s ../web/build" ${
-        adminType ? '"PORT=1235 serve -s ../admin/build"' : ''
-      } "cypress open"`,
-    };
+    pkg.name = `@${workspace}/${name}`;
 
     return fs.writeFile(path.join(cypressPath, 'package.json'), JSON.stringify(pkg, null, 2));
   });
