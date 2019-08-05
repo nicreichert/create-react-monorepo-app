@@ -12,6 +12,7 @@ const configuration = require('./configuration');
 const base = require('./plugins/base');
 const cra = require('./plugins/cra');
 const next = require('./plugins/next');
+const gatsby = require('./plugins/gatsby');
 const cypress = require('./plugins/cypress');
 const storybookTemplate = require('./plugins/storybook');
 
@@ -19,7 +20,16 @@ let spinner = ora({
   color: 'red',
 });
 
-const webCreator = type => (type === 'SPA' ? cra : next);
+const webCreator = type => {
+  switch (type) {
+    case 'next':
+      return next;
+    case 'gatsby':
+      return gatsby;
+    default:
+      return cra;
+  }
+};
 
 async function create(name) {
   const config = await configuration();

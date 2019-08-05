@@ -20,6 +20,7 @@ And, for your web projects, you can choose between:
 
 - [create-react-app](https://github.com/facebook/create-react-app)
 - [next.js](https://nextjs.org/)
+- [gatsby](https://www.gatsbyjs.org)
 
 ## How to use
 
@@ -43,4 +44,5 @@ Note that both `storybook` and `cypress` are using minimal setup, therefore, the
 
 ## Next steps
 
-- [ ] Add [gatsby](https://www.gatsbyjs.org/) template
+- [x] Add [gatsby](https://www.gatsbyjs.org/) template
+- [ ] Add possibility to export the templates together (to create new projects)

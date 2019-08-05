@@ -253,5 +253,8 @@ fastlane/test_output
 iOSInjectionProject/
 
 
+# gatsby
+.cache/
+
 dist/
 build/

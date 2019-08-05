@@ -7,10 +7,11 @@ async function configuration() {
   const { type } = await prompt({
     name: 'type',
     type: 'list',
-    message: 'What type of application do you need?',
+    message: 'Which starter project you want to use?',
     choices: [
-      { name: 'Single-page (create-react-app)', value: 'SPA' },
-      { name: 'Server-rendered (next.js)', value: 'SSR' },
+      { name: 'create-react-app', value: 'cra' },
+      { name: 'next.js', value: 'next' },
+      { name: 'gatsby', value: 'gatsby' },
     ],
   });
 
@@ -20,8 +21,9 @@ async function configuration() {
     message: 'Does your project include an admin panel?',
     choices: [
       { name: 'No', value: null },
-      { name: 'Yes (Single-page)', value: 'SPA' },
-      { name: 'Yes (Server-rendered)', value: 'SSR' },
+      { name: 'Yes (create-react-app)', value: 'cra' },
+      { name: 'Yes (next.js)', value: 'next' },
+      { name: 'Yes (gatsby)', value: 'gatsby' },
     ],
   });
 
