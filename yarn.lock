@@ -30,6 +30,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/command-exists@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/command-exists/-/command-exists-1.2.0.tgz#d97e0ed10097090e4ab0367ed425b0312fad86f3"
+  integrity sha512-ugsxEJfsCuqMLSuCD4PIJkp5Uk2z6TCMRCgYVuhRo5cYQY3+1xXTQkSlPtkpGHuvWMjS2KTeVQXxkXRACMbM6A==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -338,6 +343,11 @@ colors@1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.2.4.tgz#e0cb41d3e4b20806b3bfc27f4559f01b94bc2f7c"
   integrity sha512-6Y+iBnWmXL+AWtlOp2Vr6R2w5MUlNJRwR0ShVFaAb1CqWzhPOpQg4L0jxD+xpw/Nc8QJwaq3KM79QUCriY8CWQ==
+
+command-exists@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/command-exists/-/command-exists-1.2.8.tgz#715acefdd1223b9c9b37110a149c6392c2852291"
+  integrity sha512-PM54PkseWbiiD/mMsbvW351/u+dafwTJ0ye2qB60G1aGQP9j3xK2gmMDc+R34L3nDtx4qMCitXT75mkbkGJDLw==
 
 concat-map@0.0.1:
   version "0.0.1"

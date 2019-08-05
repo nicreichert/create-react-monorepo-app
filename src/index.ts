@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { sync as commandExists } from 'command-exists';
 import execa from 'execa';
 import ora from 'ora';
 import path from 'path';
@@ -83,6 +84,14 @@ async function create(name: string) {
   });
 
   spinner.succeed(`${chalk.blue('git')} initialized`);
+
+  if (commandExists('code')) {
+    await execa('code', [targetDir]);
+  } else if (commandExists('atom')) {
+    await execa('atom', [targetDir]);
+  } else if (commandExists('subl')) {
+    await execa('subl', [targetDir]);
+  }
 
   spinner.succeed(`${name} setup concluded`);
 }
