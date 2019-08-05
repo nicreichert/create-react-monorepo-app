@@ -3,7 +3,6 @@ node_modules
 
 # production
 dist
-build
 
 # testing
 .nyc_output

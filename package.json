@@ -1,6 +1,6 @@
 {
   "name": "create-react-monorepo-app",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "main": "index.js",
   "author": "Nic Reichert <nicolas.jreichert@gmail.com>",
   "license": "MIT",
@@ -15,7 +15,8 @@
   ],
   "bin": "./bin/create-react-monorepo-app.js",
   "scripts": {
-    "build": "rm -rf build && tsc"
+    "build": "rm -rf build && tsc",
+    "publish": "yarn build && npm publish"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
