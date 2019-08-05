@@ -15,8 +15,13 @@
   ],
   "bin": "./bin/create-react-monorepo-app.js",
   "scripts": {
-    "build": "rm -rf build && tsc",
+    "build": "rm -rf lib && tsc && node scripts/copy-templates.js",
     "publish": "yarn build && npm publish"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn build && git add lib"
+    }
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -25,7 +30,6 @@
     "execa": "^2.0.3",
     "fs-extra": "^8.1.0",
     "inquirer": "^6.5.0",
-    "meow": "^5.0.0",
     "ora": "^3.4.0",
     "please-upgrade-node": "^3.1.1",
     "replace": "^1.1.0",
@@ -39,6 +43,7 @@
     "@types/update-notifier": "^2.5.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
+    "husky": "^3.0.2",
     "prettier": "^1.18.2",
     "typescript": "^3.5.3"
   }

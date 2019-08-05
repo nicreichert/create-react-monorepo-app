@@ -1,8 +1,9 @@
 export const readme = (
   name: string,
   storybook: boolean,
-  adminType: string | null,
-  e2e: boolean
+  admin: string | null,
+  e2e: boolean,
+  includeTemplates: boolean
 ) => `# ${name}
 
 ## Scripts
@@ -12,7 +13,7 @@ export const readme = (
 - ${'`yarn build:web`'} - Build web project to be deployed.
 - ${'`yarn start:web`'} - Run web and UI projects on watch mode. All changes to UI will trigger reload on web.
 ${
-  adminType
+  admin
     ? `- ${'`yarn build:admin`'} - Build admin project to be deployed
 - ${'`yarn start:admin`'} - Run admin and UI projects on watch mode. All changes to UI will trigger reload on admin.
 `
@@ -23,5 +24,9 @@ ${
 - ${'`yarn start:storybook`'} - Run storybook and UI projects on watch mode. All changes to UI will trigger reload on storybook.
 `
     : ''
-}${e2e ? `- ${'`yarn start:cypress`'} - Run e2e tests with cypress.` : ''}
+}${e2e ? `- ${'`yarn start:cypress`'} - Run e2e tests with cypress.` : ''}${
+  includeTemplates
+    ? '- `yarn install-template` - Wizzard that guides you to install packages to your project.'
+    : ''
+}
 `;

@@ -5,12 +5,12 @@ import { Package } from '../Package';
 import { readme } from './readme';
 
 export const base = async (
-  { includeStorybook, adminType, includee2e }: Configuration,
+  { includeStorybook, adminType, includee2e, includeTemplates }: Configuration,
   name: string,
   targetDir: string
 ) => {
   await fs
-    .copy(path.join(process.cwd(), 'templates/base'), targetDir)
+    .copy(path.join(__dirname, 'template'), targetDir)
     .then(() => {
       const pkg = new Package(targetDir);
 
@@ -23,7 +23,7 @@ export const base = async (
     .then(() =>
       fs.writeFile(
         path.join(targetDir, 'README.md'),
-        readme(name, includeStorybook, adminType, includee2e)
+        readme(name, includeStorybook, adminType, includee2e, includeTemplates)
       )
     );
 };

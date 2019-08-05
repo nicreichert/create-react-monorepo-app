@@ -5,7 +5,7 @@ import { Package } from '../Package';
 export const next = async (workspace: string, targetDir: string, name: string) => {
   const p = path.join(targetDir, 'packages', name);
   await fs
-    .copy(path.join(process.cwd(), 'templates/next'), p)
+    .copy(path.join(__dirname, 'template'), p)
     .then(() => {
       const pkg = new Package(p);
       pkg.setName(`@${workspace}/${name}`);

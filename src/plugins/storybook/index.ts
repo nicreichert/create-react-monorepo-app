@@ -9,7 +9,7 @@ export const storybook = async (
 ) => {
   const p = path.join(targetDir, 'packages', name);
   await fs
-    .copy(path.join(process.cwd(), 'templates/storybook'), p)
+    .copy(path.join(__dirname, 'template'), p)
     .then(() => {
       const pkg = new Package(p);
       pkg.setName(`@${workspace}/${name}`);

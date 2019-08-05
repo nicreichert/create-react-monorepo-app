@@ -25,15 +25,13 @@ export const installTemplate = async (targetDir: string) => {
 
   await pkg.save();
 
-  await fs.copy(path.join(process.cwd(), 'templates/'), path.join(targetDir, 'templates/'));
-
   await fs.copy(
     path.join(__dirname, '../../plugins/'),
     path.join(targetDir, 'scripts/install-template')
   );
 
   await fs.copy(
-    path.join(process.cwd(), 'scripts/install-template.js'),
+    path.join(__dirname, 'script/install-template.js'),
     path.join(targetDir, 'scripts/install-template/index.js')
   );
 };

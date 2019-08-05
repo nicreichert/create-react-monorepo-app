@@ -18,8 +18,8 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "resolveJsonModule": true,
-    "outDir": "build"
+    "outDir": "lib"
   },
-  "exclude": ["node_modules", "templates", "**/template/*"],
+  "exclude": ["node_modules", "**/scripts/*", "**/template/*"],
   "include": ["src"]
 }
