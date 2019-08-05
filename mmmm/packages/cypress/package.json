@@ -1,0 +1,14 @@
+{
+  "name": "@mmmm/cypress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "(cd ../web && yarn build) && (cd ../admin && yarn build) && concurrently \"PORT=1234 serve -s ../web/build\" \"PORT=1235 serve -s ../admin/build\" \"cypress open\""
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "cypress": "^3.4.1",
+    "serve": "^11.1.0"
+  }
+}

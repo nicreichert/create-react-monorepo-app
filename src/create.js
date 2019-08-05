@@ -11,12 +11,15 @@ const configuration = require('./configuration');
 
 const base = require('./plugins/base');
 const cra = require('./plugins/cra');
+const next = require('./plugins/next');
 const cypress = require('./plugins/cypress');
 const storybookTemplate = require('./plugins/storybook');
 
 let spinner = ora({
   color: 'red',
 });
+
+const webCreator = type => (type === 'SPA' ? cra : next);
 
 async function create(name) {
   const config = await configuration();
@@ -31,10 +34,10 @@ async function create(name) {
   await base(config, name, targetDir);
 
   // Copy web template
-  await cra('web', name, targetDir);
+  await webCreator(type)('web', name, targetDir);
 
   // Copy admin template
-  adminType && (await cra('admin', name, targetDir));
+  adminType && (await webCreator(adminType)('admin', name, targetDir));
 
   // Copy storybook template
   storybook && (await storybookTemplate(name, targetDir));

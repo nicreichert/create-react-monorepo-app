@@ -8,7 +8,10 @@ async function configuration() {
     name: 'type',
     type: 'list',
     message: 'What type of application do you need?',
-    choices: [{ name: 'Single-page', value: 'SPA' }, { name: 'Server-rendered', value: 'SSR' }],
+    choices: [
+      { name: 'Single-page (create-react-app)', value: 'SPA' },
+      { name: 'Server-rendered (next.js)', value: 'SSR' },
+    ],
   });
 
   const { adminType } = await prompt({

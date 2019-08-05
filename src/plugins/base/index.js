@@ -3,6 +3,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 
+const createReadme = require('./readme');
+
 const adminScripts = adminType =>
   adminType
     ? {
@@ -29,20 +31,25 @@ const cypressScripts = e2e =>
     : {};
 
 module.exports = async ({ storybook, adminType, e2e }, name, targetDir) => {
-  await fs.copy(path.join(__dirname, 'template'), targetDir).then(() => {
-    const pkg = require(path.join(targetDir, 'package.json'));
-    pkg.name = name;
+  await fs
+    .copy(path.join(__dirname, 'template'), targetDir)
+    .then(() => {
+      const pkg = require(path.join(targetDir, 'package.json'));
+      pkg.name = name;
 
-    if (adminType || storybook) {
-      pkg.scripts = {
-        ...pkg.scripts,
-        ...adminScripts(adminType),
-        ...storybookScripts(storybook),
-        ...cypressScripts(e2e),
-        postinstall: 'yarn build:ui',
-      };
-    }
+      if (adminType || storybook) {
+        pkg.scripts = {
+          ...pkg.scripts,
+          ...adminScripts(adminType),
+          ...storybookScripts(storybook),
+          ...cypressScripts(e2e),
+          postinstall: 'yarn build:ui',
+        };
+      }
 
-    return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));
-  });
+      return fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));
+    })
+    .then(() =>
+      fs.writeFile(path.join(targetDir, 'README.md'), createReadme(name, storybook, adminType, e2e))
+    );
 };

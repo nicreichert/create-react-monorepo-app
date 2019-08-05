@@ -1,0 +1,81 @@
+{
+  "name": "mmmm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "jest --watch",
+    "build:ui": "(cd packages/ui && yarn build)",
+    "build:web": "(cd packages/web && yarn build)",
+    "start:web": "concurrently \"(cd packages/web && yarn start)\" \"(cd packages/ui && yarn start)\"",
+    "start:admin": "concurrently \"(cd packages/admin && yarn start)\" \"(cd packages/ui && yarn start)\"",
+    "build:admin": "(cd packages/admin && yarn build)",
+    "start:storybook": "concurrently \"(cd packages/storybook && yarn start)\" \"(cd packages/ui && yarn start)\"",
+    "build:storybook": "(cd packages/storybook && yarn build)",
+    "start:cypress": "(cd packages/cypress && yarn start)",
+    "postinstall": "yarn build:ui"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "jest": {
+    "roots": [
+      "<rootDir>/packages"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "jsx": "react"
+        }
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "yarn build:ui",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "stylelint --fix",
+      "prettier",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/node": "12.6.8",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "concurrently": "^4.1.1",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.2",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.2.1",
+    "prettier": "^1.18.2",
+    "stylelint": "^10.1.0",
+    "stylelint-config-recommended": "^2.2.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  }
+}
