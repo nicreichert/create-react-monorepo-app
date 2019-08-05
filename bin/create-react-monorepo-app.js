@@ -10,7 +10,7 @@ const updateNotifier = require('update-notifier');
 const meow = require('meow');
 const chalk = require('chalk');
 
-const create = require('../src/create');
+const { createApp } = require('../build');
 const pkg = require('../package.json');
 
 if (process.argv.length === 2) {
@@ -40,4 +40,4 @@ const cli = meow(`
     ${chalk.gray('$')} create-monorepo-app ${chalk.yellow('[project-directory]')}
 `);
 
-create(process.argv[0] || '.');
+createApp(process.argv[0] || '.');

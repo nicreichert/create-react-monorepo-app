@@ -9,11 +9,11 @@ const ora = require('ora');
 const replace = require('replace');
 const chalk = require('chalk');
 
-const cra = require('./cra');
-const gatsby = require('./gatsby');
-const next = require('./next');
-const storybook = require('./storybook');
-const cypress = require('./cypress');
+const { cra } = require('./cra');
+const { gatsby } = require('./gatsby');
+const { next } = require('./next');
+const { storybook } = require('./storybook');
+const { cypress } = require('./cypress');
 
 let spinner = ora({
   color: 'red',
@@ -54,7 +54,7 @@ const installTemplate = async () => {
     ],
   });
 
-  spinner.succeed(`Project generated at ${chalk.blue(targetDir)}/packages/${name}`);
+  spinner.succeed(`Project generated at ${chalk.blue(`${targetDir}/packages/${name}`)}`);
 
   const pkg = require(path.join(targetDir, 'package.json'));
 

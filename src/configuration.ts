@@ -1,8 +1,9 @@
 'use strict';
 
-const { prompt } = require('inquirer');
+import { prompt } from 'inquirer';
+import { Configuration } from './types';
 
-async function configuration() {
+export const configuration: () => Promise<Configuration> = async () => {
   const { type } = await prompt({
     name: 'type',
     type: 'list',
@@ -26,22 +27,22 @@ async function configuration() {
     ],
   });
 
-  const { storybook } = await prompt({
-    name: 'storybook',
+  const { includeStorybook } = await prompt({
+    name: 'includeStorybook',
     type: 'list',
     message: 'Include Storybook setup?',
     choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
   });
 
-  const { e2e } = await prompt({
-    name: 'e2e',
+  const { includee2e } = await prompt({
+    name: 'includee2e',
     type: 'list',
     message: 'Include E2E tests setup?',
     choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
   });
 
-  const { shouldCopyTemplates } = await prompt({
-    name: 'shouldCopyTemplates',
+  const { includeTemplates } = await prompt({
+    name: 'includeTemplates',
     type: 'list',
     message: 'Copy templates so you can later create new projects?',
     choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
@@ -50,10 +51,8 @@ async function configuration() {
   return {
     type,
     adminType,
-    storybook,
-    e2e,
-    shouldCopyTemplates,
+    includeStorybook,
+    includee2e,
+    includeTemplates,
   };
-}
-
-module.exports = configuration;
+};

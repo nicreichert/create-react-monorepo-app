@@ -1,22 +1,19 @@
 'use strict';
 
-const path = require('path');
-const fs = require('fs-extra');
+import fs from 'fs-extra';
+import path from 'path';
+import { Package } from '../../plugins/Package';
 
-const sortObject = require('../../utils/sort-object');
-
-const install = async targetDir => {
-  const pkg = require(path.join(targetDir, 'package.json'));
+export const installTemplate = async (targetDir: string) => {
+  const pkg = new Package(targetDir);
 
   // add script to package.json
-  pkg.scripts = {
-    ...pkg.scripts,
+  pkg.addScript({
     'install-template': 'node scripts/install-template',
-  };
+  });
 
   // add dependencies to package.json
-  pkg.devDependencies = sortObject({
-    ...pkg.devDependencies,
+  pkg.addDevDependency({
     'fs-extra': '^8.1.0',
     inquirer: '^6.5.0',
     execa: '^2.0.3',
@@ -26,7 +23,9 @@ const install = async targetDir => {
     replace: '^1.1.0',
   });
 
-  await fs.writeFile(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));
+  await pkg.save();
+
+  await fs.copy(path.join(process.cwd(), 'templates/'), path.join(targetDir, 'templates/'));
 
   await fs.copy(
     path.join(__dirname, '../../plugins/'),
@@ -34,9 +33,7 @@ const install = async targetDir => {
   );
 
   await fs.copy(
-    path.join(__dirname, './script/install-templates.js'),
+    path.join(process.cwd(), 'scripts/install-template.js'),
     path.join(targetDir, 'scripts/install-template/index.js')
   );
 };
-
-module.exports = install;

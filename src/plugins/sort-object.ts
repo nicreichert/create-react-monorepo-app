@@ -1,4 +1,8 @@
-module.exports = obj => {
+export const sortObject = (obj?: object) => {
+  if (!obj) {
+    return obj;
+  }
+
   const keys = Object.keys(obj);
   keys.sort();
 

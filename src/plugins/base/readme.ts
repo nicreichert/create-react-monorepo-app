@@ -1,4 +1,9 @@
-module.exports = (name, storybook, adminType, e2e) => `# ${name}
+export const readme = (
+  name: string,
+  storybook: boolean,
+  adminType: string | null,
+  e2e: boolean
+) => `# ${name}
 
 ## Scripts
 

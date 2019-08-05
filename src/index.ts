@@ -1,28 +1,24 @@
-'use strict';
-
-const path = require('path');
-const execa = require('execa');
-const ora = require('ora');
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const replace = require('replace');
-
-const configuration = require('./configuration');
-
-const base = require('./plugins/base');
-const cra = require('./plugins/cra');
-const next = require('./plugins/next');
-const gatsby = require('./plugins/gatsby');
-const cypress = require('./plugins/cypress');
-const storybookTemplate = require('./plugins/storybook');
-
-const copyTemplates = require('./scripts/install-templates');
+import chalk from 'chalk';
+import execa from 'execa';
+import ora from 'ora';
+import path from 'path';
+// @ts-ignore
+import replace from 'replace';
+import { configuration } from './configuration';
+import { base } from './plugins/base';
+import { cra } from './plugins/cra';
+import { cypress } from './plugins/cypress';
+import { gatsby } from './plugins/gatsby';
+import { next } from './plugins/next';
+import { storybook } from './plugins/storybook';
+import { installTemplate } from './scripts/install-template';
+import { ProjectType } from './types';
 
 let spinner = ora({
   color: 'red',
 });
 
-const webCreator = type => {
+const webCreator = (type: ProjectType) => {
   switch (type) {
     case 'next':
       return next;
@@ -33,9 +29,9 @@ const webCreator = type => {
   }
 };
 
-async function create(name) {
+async function create(name: string) {
   const config = await configuration();
-  const { type, adminType, storybook, e2e, shouldCopyTemplates } = config;
+  const { type, adminType, includeStorybook, includee2e, includeTemplates } = config;
 
   // run the generator
   spinner.start('Generating project');
@@ -52,11 +48,11 @@ async function create(name) {
   adminType && (await webCreator(adminType)(name, targetDir, 'admin'));
 
   // Copy storybook template
-  storybook && (await storybookTemplate(name, targetDir));
+  includeStorybook && (await storybook(name, targetDir));
 
-  e2e && (await cypress(name, targetDir));
+  includee2e && (await cypress(name, targetDir));
 
-  shouldCopyTemplates && (await copyTemplates(targetDir));
+  includeTemplates && (await installTemplate(targetDir));
 
   // Replace `@monorepo` with current project name from templates
   replace({
@@ -91,9 +87,9 @@ async function create(name) {
   spinner.succeed(`${name} setup concluded`);
 }
 
-module.exports = name => {
+export function createApp(name: string) {
   create(name).catch(error => {
     spinner.fail(`Error: ${error.message}`);
     console.log(error);
   });
-};
+}
