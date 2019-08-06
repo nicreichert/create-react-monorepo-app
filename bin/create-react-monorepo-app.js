@@ -7,10 +7,9 @@ const fs = require('fs');
 
 const validateName = require('validate-npm-package-name');
 const updateNotifier = require('update-notifier');
-const meow = require('meow');
 const chalk = require('chalk');
 
-const create = require('../src/create');
+const { createApp } = require('../lib');
 const pkg = require('../package.json');
 
 if (process.argv.length === 2) {
@@ -35,9 +34,4 @@ if (fs.existsSync(targetDir)) {
 updateNotifier({ pkg }).notify();
 require('please-upgrade-node')(pkg);
 
-const cli = meow(`
-  ${chalk.gray('Usage')}
-    ${chalk.gray('$')} create-monorepo-app ${chalk.yellow('[project-directory]')}
-`);
-
-create(process.argv[0] || '.');
+createApp(process.argv[0] || '.');
