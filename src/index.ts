@@ -3,7 +3,6 @@ import { sync as commandExists } from 'command-exists';
 import execa from 'execa';
 import ora from 'ora';
 import path from 'path';
-// @ts-ignore
 import replace from 'replace';
 import { configuration } from './configuration';
 import { base } from './plugins/base';
@@ -51,9 +50,8 @@ async function create(name: string) {
   // Copy storybook template
   includeStorybook && (await storybook(name, targetDir));
 
+  // Copy cypress templatee
   includee2e && (await cypress(name, targetDir));
-
-  includeTemplates && (await installTemplate(targetDir));
 
   // Replace `@monorepo` with current project name from templates
   replace({
@@ -63,6 +61,9 @@ async function create(name: string) {
     recursive: true,
     silent: true,
   });
+
+  // Copy templates and create script to installing new templates
+  includeTemplates && (await installTemplate(targetDir));
 
   spinner.succeed(`Project generated at ${chalk.blue(targetDir)}`);
 
@@ -79,12 +80,14 @@ async function create(name: string) {
     cwd: targetDir,
   });
 
+  // Setup husky
   await execa('node', ['node_modules/husky/husky.js', 'install'], {
     cwd: targetDir,
   });
 
   spinner.succeed(`${chalk.blue('git')} initialized`);
 
+  // If can find IDE CLI, use it to open project.
   if (commandExists('code')) {
     await execa('code', [targetDir]);
   } else if (commandExists('atom')) {
