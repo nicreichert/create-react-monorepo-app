@@ -1,5 +1,3 @@
-'use strict';
-
 import { prompt } from 'inquirer';
 import { Configuration } from './types';
 
