@@ -9,9 +9,12 @@
     "build:ui": "(cd packages/ui && yarn build)",
     "postinstall": "yarn build:ui"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": []
+  },
   "jest": {
     "roots": [
       "<rootDir>/packages"
