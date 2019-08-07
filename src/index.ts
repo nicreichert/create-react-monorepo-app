@@ -10,6 +10,7 @@ import { cra } from './plugins/cra';
 import { cypress } from './plugins/cypress';
 import { gatsby } from './plugins/gatsby';
 import { next } from './plugins/next';
+import { reactNative } from './plugins/react-native';
 import { storybook } from './plugins/storybook';
 import { installTemplate } from './scripts/install-template';
 import { ProjectType } from './types';
@@ -31,7 +32,7 @@ const webCreator = (type: ProjectType) => {
 
 async function create(name: string) {
   const config = await configuration();
-  const { type, adminType, includeStorybook, includee2e, includeTemplates } = config;
+  const { type, adminType, includeMobile, includeStorybook, includee2e, includeTemplates } = config;
 
   // run the generator
   spinner.start('Generating project');
@@ -46,6 +47,9 @@ async function create(name: string) {
 
   // Copy admin template
   adminType && (await webCreator(adminType)(name, targetDir, 'admin'));
+
+  // Copy react-native template
+  includeMobile && (await reactNative(name, targetDir));
 
   // Copy storybook template
   includeStorybook && (await storybook(name, targetDir));
