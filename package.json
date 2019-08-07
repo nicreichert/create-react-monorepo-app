@@ -15,8 +15,7 @@
   ],
   "bin": "./bin/create-react-monorepo-app.js",
   "scripts": {
-    "build": "rm -rf lib && tsc && node scripts/copy-templates.js",
-    "publish": "yarn build && npm publish"
+    "build": "rm -rf lib && tsc && node scripts/copy-templates.js"
   },
   "husky": {
     "hooks": {
