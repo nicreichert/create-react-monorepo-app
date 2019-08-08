@@ -37,6 +37,10 @@ export class Package {
     };
   };
 
+  public addNoHoist = (path: string) => {
+    this.pkg.workspaces.nohoist.push(path);
+  };
+
   public save = async () => {
     this.pkg.devDependencies = sortObject(this.pkg.devDependencies);
     this.pkg.dependencies = sortObject(this.pkg.dependencies);

@@ -25,6 +25,13 @@ export const configuration: () => Promise<Configuration> = async () => {
     ],
   });
 
+  const { includeMobile } = await prompt({
+    name: 'includeMobile',
+    type: 'list',
+    message: 'Does your project include an app? (Will create react-native app)',
+    choices: [{ name: 'No', value: false }, { name: 'Yes', value: true }],
+  });
+
   const { includeStorybook } = await prompt({
     name: 'includeStorybook',
     type: 'list',
@@ -49,6 +56,7 @@ export const configuration: () => Promise<Configuration> = async () => {
   return {
     type,
     adminType,
+    includeMobile,
     includeStorybook,
     includee2e,
     includeTemplates,

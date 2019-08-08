@@ -11,10 +11,15 @@
   "keywords": [
     "monorepo",
     "react",
-    "frontend"
+    "frontend",
+    "react-native",
+    "gatsby",
+    "next.js",
+    "cra"
   ],
   "bin": "./bin/create-react-monorepo-app.js",
   "scripts": {
+    "start": "tsc --w",
     "build": "rm -rf lib && tsc && node scripts/copy-templates.js"
   },
   "husky": {

@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 // copy plugins to folders
-const plugins = ['base', 'cra', 'cypress', 'gatsby', 'next', 'storybook'];
+const plugins = ['base', 'cra', 'cypress', 'gatsby', 'next', 'react-native', 'storybook'];
 
 plugins.forEach(plugin => {
   fs.copy(
