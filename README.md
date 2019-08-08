@@ -47,4 +47,5 @@ Note that both `storybook` and `cypress` are using minimal setup, therefore, the
 - [x] Add [gatsby](https://www.gatsbyjs.org/) template
 - [x] Add possibility to export the templates together (to create new projects)
 - [x] Port to typescript
-- [ ] Include [react-native](https://facebook.github.io/react-native/) templates
+- [x] Include [react-native](https://facebook.github.io/react-native/) templates
+- [ ] Share styles between native and web with [react-native-web](https://github.com/necolas/react-native-web)
