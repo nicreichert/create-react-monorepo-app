@@ -16,6 +16,7 @@ export const base = async (
 
       pkg.setName(name);
       pkg.addScript({
+        'build:ui': `yarn workspace @${name}/ui build`,
         postinstall: 'yarn build:ui',
       });
       return pkg.save();

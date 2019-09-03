@@ -6,14 +6,12 @@
   "private": true,
   "scripts": {
     "test": "jest --watch",
-    "build:ui": "(cd packages/ui && yarn build)",
     "postinstall": "yarn build:ui"
   },
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": []
+    ]
   },
   "jest": {
     "roots": [

@@ -15,8 +15,8 @@ export const gatsby = async (workspace: string, targetDir: string, name: string)
       const pkg = new Package(targetDir);
 
       pkg.addScript({
-        [`start:${name}`]: `concurrently "(cd packages/${name} && yarn start)" "(cd packages/ui && yarn start)"`,
-        [`build:${name}`]: `(cd packages/${name} && yarn build)`,
+        [`start:${name}`]: `concurrently "yarn workspace ${`@${workspace}/${name}`} start" "yarn workspace @${workspace}/ui start"`,
+        [`build:${name}`]: `yarn workspace ${`@${workspace}/${name}`} build`,
       });
 
       return pkg.save();

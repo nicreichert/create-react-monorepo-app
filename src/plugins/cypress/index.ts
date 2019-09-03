@@ -16,7 +16,7 @@ export const cypress = async (workspace: string, targetDir: string, name: string
       const pkg = new Package(targetDir);
 
       pkg.addScript({
-        [`start:${name}`]: `(cd packages/${name} && yarn start)`,
+        [`start:${name}`]: `yarn workspace @${workspace}/${name} start`,
       });
 
       return pkg.save();
