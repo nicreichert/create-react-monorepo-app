@@ -4,11 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "(cd ../web && yarn build) && concurrently \"PORT=1234 serve -s ../web/build\" \"cypress open\""
+    "start": "cypress open"
   },
   "devDependencies": {
-    "concurrently": "^4.1.1",
-    "cypress": "^3.4.1",
-    "serve": "^11.1.0"
+    "cypress": "^3.4.1"
   }
 }

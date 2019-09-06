@@ -12,6 +12,7 @@ const chalk = require('chalk');
 const { cra } = require('./cra');
 const { gatsby } = require('./gatsby');
 const { next } = require('./next');
+const { reactNative } = require('./react-native');
 const { storybook } = require('./storybook');
 const { cypress } = require('./cypress');
 
@@ -49,6 +50,7 @@ const installTemplate = async () => {
       { name: 'create-react-app', value: cra },
       { name: 'gatsby', value: gatsby },
       { name: 'next.js', value: next },
+      { name: 'react-native', value: reactNative },
       { name: 'storybook', value: storybook },
       { name: 'cypress', value: cypress },
     ],
