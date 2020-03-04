@@ -49,11 +49,9 @@ export const reactNative = async (
     .then(() => {
       const pkg = new Package(targetDir);
 
-      pkg.addNoHoist(`@${workspace}/${name}/**`);
-
       pkg.addScript({
-        [`start:${name}-ios`]: `yarn workspace ${`@${workspace}/${name}`} run-ios`,
-        [`start:${name}-android`]: `yarn workspace ${`@${workspace}/${name}`} run-android`,
+        [`start:${name}-ios`]: `concurrently \"yarn workspace ${`@${workspace}/${name}`} start\" \"yarn workspace ${`@${workspace}/${name}`} run-ios\"`,
+        [`start:${name}-android`]: `concurrently \"yarn workspace ${`@${workspace}/${name}`} start\" \"yarn workspace ${`@${workspace}/${name}`} run-android\"`,
       });
 
       return pkg.save();

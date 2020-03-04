@@ -40,7 +40,7 @@ async function create(name: string) {
   const targetDir = path.resolve(name);
 
   // Copy base template
-  await base(config, name, targetDir);
+  await base(config, name, targetDir, includeMobile);
 
   // Copy web template
   await webCreator(type)(name, targetDir, 'web');
