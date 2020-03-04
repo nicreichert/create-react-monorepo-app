@@ -7,7 +7,8 @@ import { readme } from './readme';
 export const base = async (
   { includeStorybook, adminType, includee2e, includeTemplates }: Configuration,
   name: string,
-  targetDir: string
+  targetDir: string,
+  includeMobile: boolean
 ) => {
   await fs
     .copy(path.join(__dirname, 'template'), targetDir)
@@ -19,6 +20,12 @@ export const base = async (
         'build:ui': `yarn workspace @${name}/ui build`,
         postinstall: 'yarn build:ui',
       });
+
+      includeMobile &&
+        pkg.addDependency({
+          'react-native': '0.61.5',
+        });
+
       return pkg.save();
     })
     .then(() =>
